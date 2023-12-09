@@ -6,11 +6,11 @@ namespace RockPaperScissorsInjection.WebApi.Gameplay
     {
         private Sign? _opponentPreviousThrow;
 
-        public Sign Throw(Sign? opponentPreviousThrow)
+        public Sign Throw(Sign opponentThrow)
         {
-            var result = _opponentPreviousThrow ?? random.Throw(null);
+            var result = _opponentPreviousThrow ?? random.Throw(opponentThrow);
 
-            _opponentPreviousThrow = opponentPreviousThrow;
+            _opponentPreviousThrow = opponentThrow;
 
             return result;
         }

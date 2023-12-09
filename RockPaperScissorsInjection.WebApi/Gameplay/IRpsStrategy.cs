@@ -4,6 +4,6 @@ namespace RockPaperScissorsInjection.WebApi.Gameplay
 {
     public interface IRpsStrategy
     {
-        Sign Throw(Sign? opponentPreviousThrow);
+        Sign Throw(Sign opponentThrow);
     }
 }

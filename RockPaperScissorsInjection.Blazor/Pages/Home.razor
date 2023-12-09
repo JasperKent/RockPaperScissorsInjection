@@ -9,20 +9,23 @@
         <h1>Rock Paper Scissors</h1>
         <p>Play against the computer.</p>
 
-        <button @onclick='() => onThrow(Sign.Rock)'>Rock</button>
-        <button @onclick='() => onThrow(Sign.Paper)'>Paper</button>
-        <button @onclick='() => onThrow(Sign.Scissors)'>Scissors</button>
+        <section class="space-above">
+            <button @onclick='() => onThrow(Sign.Rock)'>Rock</button>
+            <button @onclick='() => onThrow(Sign.Paper)'>Paper</button>
+            <button @onclick='() => onThrow(Sign.Scissors)'>Scissors</button>
+        </section>
 
         @if (_computerSign != null && _playerSign != null)
         {   
             <section class="space-above">
-                You: <span style="color: blue">@_playerSign</span>. Computer: <span style="color: blue">@_computerSign</span>.
+                <section>
+                    You: <span style="color: blue">@_playerSign</span>. Computer: <span style="color: blue">@_computerSign</span>.
+                </section>
+                <br />
+                <section>
+                    @_outcome
+                </section>
             </section>
-            <br />
-            <section>
-                @_outcome
-            </section>
-
         }
 
         <section class="space-above">
