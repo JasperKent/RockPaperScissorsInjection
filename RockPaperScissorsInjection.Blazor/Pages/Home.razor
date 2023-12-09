@@ -1,0 +1,66 @@
+﻿@page "/"
+@using RockPaperScissorsInjection.Common
+@inject HttpClient _httpClient;
+
+<PageTitle>Rock Paper Scissors</PageTitle>
+
+<article>
+    <section>
+        <h1>Rock Paper Scissors</h1>
+        <p>Play against the computer.</p>
+
+        <button @onclick='() => onThrow(Sign.Rock)'>Rock</button>
+        <button @onclick='() => onThrow(Sign.Paper)'>Paper</button>
+        <button @onclick='() => onThrow(Sign.Scissors)'>Scissors</button>
+
+        @if (_computerSign != null && _playerSign != null)
+        {   
+            <section class="space-above">
+                You: <span style="color: blue">@_playerSign</span>. Computer: <span style="color: blue">@_computerSign</span>.
+            </section>
+            <br />
+            <section>
+                @_outcome
+            </section>
+
+        }
+
+        <section class="space-above">
+            Your score: <span style="color: green">@_playerScore</span>. Computer score: <span style="color: green">@_computerScore</span>.
+        </section>
+    </section>
+</article>
+
+@code{
+    private Sign? _computerSign;
+    private Sign? _playerSign;
+    private string _outcome = "";
+    private int _computerScore;
+    private int _playerScore;
+
+    private async void onThrow(Sign playersign)
+    {
+        var response = await _httpClient.GetAsync($"https://localhost:7192/game/throw/{playersign}");
+        var asStr = await response.Content.ReadAsStringAsync();
+
+        _computerSign = Enum.Parse<Sign>(asStr);
+        _playerSign = playersign;
+
+        switch (Signs.Beats(_computerSign.Value, _playerSign.Value))
+        {
+            case true:
+                _outcome = "Computer wins.";
+                _computerScore++;
+                break;
+            case false:
+                _outcome = "You wins.";
+                _playerScore++;
+                break;
+            default:
+                _outcome = "It's a draw.";
+                break;
+        }
+
+        StateHasChanged();
+    }
+}
